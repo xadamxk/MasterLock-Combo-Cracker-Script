@@ -1,0 +1,6 @@
+C:\Users\Adam\Documents\Visual Studio 2013\Projects\MasterLock_Combo_Cracker\MasterLock_Combo_Cracker\bin\Debug\MasterLock_Combo_Cracker.exe.config
+C:\Users\Adam\Documents\Visual Studio 2013\Projects\MasterLock_Combo_Cracker\MasterLock_Combo_Cracker\obj\Debug\MasterLock_Combo_Cracker.csprojResolveAssemblyReference.cache
+C:\Users\Adam\Documents\Visual Studio 2013\Projects\MasterLock_Combo_Cracker\MasterLock_Combo_Cracker\bin\Debug\MasterLock_Combo_Cracker.exe
+C:\Users\Adam\Documents\Visual Studio 2013\Projects\MasterLock_Combo_Cracker\MasterLock_Combo_Cracker\bin\Debug\MasterLock_Combo_Cracker.pdb
+C:\Users\Adam\Documents\Visual Studio 2013\Projects\MasterLock_Combo_Cracker\MasterLock_Combo_Cracker\obj\Debug\MasterLock_Combo_Cracker.exe
+C:\Users\Adam\Documents\Visual Studio 2013\Projects\MasterLock_Combo_Cracker\MasterLock_Combo_Cracker\obj\Debug\MasterLock_Combo_Cracker.pdb
