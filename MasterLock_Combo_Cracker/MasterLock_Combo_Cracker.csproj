@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{AAED5078-3C7D-4B9A-8E3E-D7914D70486C}</ProjectGuid>
+    <ProjectGuid>{0FB1AB4B-93B7-49CF-8DB1-2BE38ED7DABF}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MasterLock_Combo_Cracker</RootNamespace>

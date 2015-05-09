@@ -2,7 +2,7 @@
  * by using 3 inputs given by the user.
  * 
  * Dev: Adam K
- * Date: 5/3/2015
+ * Date: 5/8/2015
  * 
  * Credit: Credit to Samy Kamkar for figuring out the formula used.
  * Along with a special thanks to Nikey for helping me out.
@@ -13,66 +13,28 @@
  */
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
-
-
-// ReSharper disable CompareOfFloatsByEqualityOperator
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace MasterLock_Combo_Cracker
 {
     class MasterLockComboCracker
     {
-
-        private static double firstInput;
-        private static double secondInput;
-        private static double thirdInput;
-        private static double[] array3out;
-        private static double[] array2out;
-        private static int array3index;
-        private static double var1out;
-
         static void Main()
         {
+            // Constants
+            const int constant1 = 4;
+            const int constant2 = 10;
+            const int constant3 = 2;
 
             // Variables
-            char newValue = 'Y';
 
-            do
-            {
-                
             // Instructions
-            DisplayInstructions();
-
-            // Inputs
-            GetFirstInput(out firstInput);
-            GetSecondInput(out secondInput);
-            GetThirdInput(out thirdInput);
-
-            // Calculations
-            CalculateVar1(out var1out);
-            CalculateVar3(out array3out);
-            GetReplyforVar2(out array3index);
-            CalculateVar2(out array2out);
-
-            // Output
-            CalculateOutput();
-            Console.ReadKey();
-
-            // Run Again Instructions
-            RunAgainInstructions();
-
-            var inputValue = Console.ReadLine();
-            if (char.TryParse(inputValue, out newValue) == false)
-            {
-                ;
-            }
-            }
-            while ((newValue) == 'Y' || (newValue) == 'y');
-
-        }
-
-        public static void DisplayInstructions()
-        {
+            Start:
             Console.Clear();
             Console.WriteLine("\t\t\tMasterLock Combo Cracker\n");
             Console.WriteLine("This application uses an algorithm found by 'Samy Kamkar',\n\tto predict (8) possible combos for MasterLock Padlocks.\n");
@@ -82,16 +44,14 @@ namespace MasterLock_Combo_Cracker
             Console.WriteLine("\t- Resistance Location\n");
             Console.WriteLine("What these values are and how to find them will be defined as they are needed.");
             Console.WriteLine("\nPress any key to start the elimination process...");
-
             Console.ReadKey();
-        }
 
-        public static void GetFirstInput(out double output) // I1
-        {
+            // Input 1
+            Input1:
             Console.Clear();
             Console.WriteLine("\t\t\tFirst Locked Position\n");
             Console.WriteLine("- Set the dial to 0.");
-            Console.WriteLine("- Apply pressure upward on the shackle, like you are opening it."); 
+            Console.WriteLine("- Apply pressure upward on the shackle, like you are opening it.");
             Console.WriteLine("- Rotate the dial left (toward 5), until the dial feels locked in place.");
             Console.WriteLine("- You will be unable to turn at a certain number, but this value is irrelevant.");
             Console.WriteLine("- Skip this number (that it got locked at), by releasing pressure on the shackle\tand turn the dial enough to get past the value.\n");
@@ -99,14 +59,44 @@ namespace MasterLock_Combo_Cracker
             Console.WriteLine("- If you are stopped between two halfs (5.5 - 6.5), use the value between (6).");
             Console.WriteLine("- Remember, this value shouldn't be the 1st locked position,\n\t since we skipped it, it should be the 2nd.\n");
             Console.Write("First Locked Position: ");
-            var inputValue = Console.ReadLine();
+            var inputValue1 = "";
+            inputValue1 = Console.ReadLine();
 
-            var input1 = Convert.ToInt32(inputValue);
-            output = input1;
-        }
+            // Reset input1
+            int input1 = 0; 
+            // Check input1 for int
+            if (int.TryParse(inputValue1, out input1))
+            {
+                // Check input1 length
+                if (input1.ToString().Length > 2)
+                {
+                    Console.WriteLine("\n{0} is too large of a number.", input1);
+                    Console.WriteLine("Input values should be 2 digits or smaller.");
+                    Console.WriteLine("Press any key to return to the input menu...");
+                    Console.ReadKey();
+                    goto Input1;
+                }
+                // Check input1 for max
+                if (input1 > 11)
+                {
+                    Console.WriteLine("\n{0} is too large for an input.", input1);
+                    Console.WriteLine("This input should be below 11.");
+                    Console.WriteLine("Try the process over, incase you missed a value.");
+                    Console.ReadKey();
+                    goto Input1;
+                }
+            }
+            else
+            {
+                Console.WriteLine("\n{0} is an invalid input.",inputValue1);
+                Console.WriteLine("Inputs should be integer values.");
+                Console.WriteLine("Press any key to return to the input menu...");
+                Console.ReadKey();
+                goto Input1;
+            }
 
-        public static void GetSecondInput(out double output) // I2
-        {
+            // Input 2
+            Input2:
             Console.Clear();
             Console.WriteLine("\t\t\tSecond Locked Position\n");
             Console.WriteLine("- Continue where you left off previously, from the recorded locked position.");
@@ -115,16 +105,45 @@ namespace MasterLock_Combo_Cracker
             Console.WriteLine("- If you are stopped between two halfs (8.5 - 9.5) use the value between (9).");
             Console.WriteLine("- Remember, this value shouldn't be the 2nd locked position, since we\n\talready recorded that (and skipped the 1st), it should be the 3rd.\n");
             Console.WriteLine("- If this value is greater than 11, you missed a value,\n\t so you need to restart this process and re-record the values.\n");
-
             Console.Write("Second Locked Position: ");
-            var inputValue = Console.ReadLine();
+            var inputValue2 = "";
+            inputValue2 = Console.ReadLine();
 
-            var input2 = Convert.ToInt32(inputValue);
-            output = input2;
-        }
+            // Reset input2
+            int input2 = 0;
+            // Check input2 for int
+            if (int.TryParse(inputValue2, out input2))
+            {
+                // Check input2 length
+                if (input2.ToString().Length > 2)
+                {
+                    Console.WriteLine("\n{0} is too large of a number.", input2);
+                    Console.WriteLine("Input values should be 2 digits or smaller.");
+                    Console.WriteLine("Press any key to return to the input menu...");
+                    Console.ReadKey();
+                    goto Input2;
+                }
+                // Check input2 for max
+                if (input2 > 11)
+                {
+                    Console.WriteLine("\n{0} is too large for an input.",input2);
+                    Console.WriteLine("This input should be below 11.");
+                    Console.WriteLine("Try the process over, incase you missed a value.");
+                    Console.ReadKey();
+                    goto Input2;
+                }
+            }
+            else
+            {
+                Console.WriteLine("\n{0} is an invalid input.", inputValue2);
+                Console.WriteLine("Inputs should be integer values.");
+                Console.WriteLine("Press any key to return to the input menu...");
+                Console.ReadKey();
+                goto Input2;
+            }
 
-        public static void GetThirdInput(out double output) // rl
-        {
+            // Input 3
+            Input3:
             Console.Clear();
             Console.WriteLine("\t\t\tResistant Location\n");
             Console.WriteLine("- Apply less pressure on the shackle as you did before (about half),\n\tso the dial can turn and not get locked in place.\n");
@@ -132,48 +151,58 @@ namespace MasterLock_Combo_Cracker
             Console.WriteLine("- Note the value with 1 decimal place if needed,\n\t where the resistence begins to happen (ie 14.5).\n");
             Console.WriteLine("- Rotate the dial several more times to ensure that the recorded value is,\n\t the exact resistence location.\n");
             Console.Write("Resistant Location: ");
-            var inputValue = Console.ReadLine();
+            var inputValue3 = "";
+            inputValue3 = Console.ReadLine();
 
-            var input3 = Convert.ToDouble(inputValue);
-            output = input3;
-        }
-
-        public static void CalculateVar1(out double output)
-        {
-            var result = Convert.ToDouble((Math.Ceiling(thirdInput) + 5)) % 40;
-            output = result;
-
-        }
-
-        public static void CalculateVar3(out double[] array3out)
-        {
-            var mod = var1out % 4;
-            var input1 = firstInput;
-            var input2 = secondInput;
-            var var3 = new List<double>();
-
-
-            for (var i = 0; i < 4; i++)
+            // Reset input3
+            double input3 = 0;
+            // Check input3 for double
+            if (double.TryParse(inputValue3, out input3))
             {
-                if ((((10 * i) + input1) % 4) == mod)
+                // Check input2 length
+                if (input3.ToString().Length > 4)
                 {
-                    var3.Add((10*i) + input1);
-                }
-
-                if ((((10 * i) + input2) % 4) == mod)
-                {
-                    var3.Add((10 * i) + input2);
+                    Console.WriteLine("\n{0} is too large of a number.", input3);
+                    Console.WriteLine("Input values should be 3 digits or smaller (ie 14.5).");
+                    Console.WriteLine("Press any key to return to the input menu...");
+                    Console.ReadKey();
+                    goto Input2;
                 }
             }
-            array3out = var3.ToArray();
+            else
+            {
+                Console.WriteLine("\n{0} is an invalid input.", inputValue3);
+                Console.WriteLine("Inputs should be decimal values (ie 14.5).");
+                Console.WriteLine("Press any key to return to the input menu...");
+                Console.ReadKey();
+                goto Input3;
+            }
 
-        }
+            // Calculate Variable 1
+            var combo1 = Convert.ToDouble(Math.Ceiling(input3) + 5) % (constant1 * constant2);
 
-        public static void GetReplyforVar2(out int array3index)
-        {
-            int replyIndex;
-            string inputValue = "";
+            // Calculate Variable 3
+            var check1 = combo1 % constant1; // check 1 = mod
+            var combo3List = new List<double>();
 
+            for (int i = 0; i < constant1; i++)
+            {
+                if ((((constant2 * i) + input1) % constant1) == check1)
+                {
+                    combo3List.Add((constant2 * i) + input1);
+                }
+
+                if ((((constant2 * i) + input2) % constant1) == check1)
+                {
+                    combo3List.Add((constant2 * i) + input2);
+                }
+            }
+
+            double[] combo3Array = combo3List.ToArray();
+
+            // Narrow Combo3 Options
+            Input4:
+            var input4check = 0;
             Console.Clear();
             Console.WriteLine("\t\t\tFinding the 'Correct' 3rd Digit\n");
             Console.WriteLine("- Set the dial to the 1st possibility for the '3rd Digit'");
@@ -184,72 +213,158 @@ namespace MasterLock_Combo_Cracker
             Console.WriteLine("- Whichever option has a greater give, use that option (1 or 2 usually)");
             Console.WriteLine("Calculations show that there are multiple options for combo#3:\n");
 
-            for (var i = 0; i < array3out.Count(); i++)
+            for (int i = 0; i < combo3Array.Count(); i++)
             {
-                Console.Write("Possibility {0}:\t", i+1);
-                Console.Write(array3out[i] + "\t\n");
+                int combo3OptionsCount = i + 1;
+                Console.Write("Possibility {0}: \t", combo3OptionsCount);
+                Console.Write(combo3Array[i] + "\t\n");
             }
-            Console.Write("\nWhich possibility has a greater give (1,2, etc): ");
-            inputValue = Console.ReadLine();
-            if (int.TryParse(inputValue, out replyIndex) == false)
+            Console.Write("Possibility a:\tNot Sure\n");
+
+            Console.Write("\nWhich possibility has a greater give (1,2, etc, a): ");
+            var inputValue4 = "";
+            inputValue4 = Console.ReadLine();
+            // Reset Input 4
+            int input4 = 0;
+            // Check input4 for all options
+            if (inputValue4 == "a" || inputValue4 == "A")
             {
-                Console.WriteLine("Invalid Input!");
-                Console.WriteLine("Press any key to try again.");
-                Console.ReadKey();
-                Console.Clear();
-                GetReplyforVar2(out array3index);
+                input4check = 1;
             }
-            array3index = replyIndex;
-        }
-
-        public static void CalculateVar2(out double[] array2out)
-        {
-            var mod = var1out % 4;
-            var input3 = thirdInput;
-            var y = array3index - 1;
-            var x = array3out[y];
-            var var2 = new List<double>();
-
-            for (var i = 0; i < 10; i++)
+            // Check input4 for int
+            else if (int.TryParse(inputValue4, out input4))
             {
-                var temp = ((mod + 2)%4) + (4*i);
-
-                if (((x + 2) % 40 != temp && (x - 2) % 40 != temp))
+                if (int.TryParse(inputValue4, out input4) == false)
                 {
-                  var2.Add(temp);  
+                    Console.WriteLine("\n{0} is an invalid input.", input4);
+                    Console.WriteLine("Input values should be either:");
+                    Console.WriteLine("\t- Integers");
+                    Console.WriteLine("\t- or \"a\" if possibilities are unknown.");
+                    Console.WriteLine("Press any key to return to the input menu...");
+                    Console.ReadKey();
+                    goto Input4;
+                }
+
+                input4check = 2;
+            }
+
+            switch (input4check)
+            {
+                case 1: goto CalculateComboAll;
+                    break;
+                case 2: goto CalculateCombo2;
+                    break;
+                default:
+                    break;
+            }
+
+            // Calculate Combo 2
+            CalculateCombo2:
+            var y = input4 - 1;
+            var x = combo3Array[y];
+            var combo2List = new List<double>();
+
+            for (int i = 0; i < constant2; i++)
+            {
+                var temp = ((check1 + constant3) % constant1) + (constant1 * i);
+
+                if (((x + constant3) % (constant1*constant2)) != temp && ((x - constant3) % (constant1 * constant2)) != temp)
+                {
+                    combo2List.Add(temp);
+                }
+            }
+
+            double[] combo2Array = combo2List.ToArray();
+
+            // Calculate Output for known Combo3
+            string outputString = "";
+
+            if (input4check == 2)
+            {
+
+                for (int i = 0; i < combo2Array.Count(); i++)
+                {
+                    var count = i + 1;
+                    var indexcombo2 = input4 - 1;
+                    outputString += count + ").\t" + "( " + combo1 + " , ";
+                    outputString += combo2Array[i] + " , ";
+                    outputString += combo3Array[indexcombo2] + " )\n";
+                }
+
+                Console.Clear();
+                Console.WriteLine("\t\t\tPossible Combination List\n");
+                Console.WriteLine("\nBelow is a list of possible combinations for your lock:\n");
+                Console.WriteLine("#).\t(Combo)");
+                Console.WriteLine(outputString);
+                goto LoopProgram;
+            }
+
+            // Calculate Unknown ComboAll
+            CalculateComboAll:
+
+            // Calculate Combo2All
+            var combo2ListAll1 = new List<double>();
+            var combo2ListAll2 = new List<double>();
+            var combo2ListAll3 = new List<double>();
+            var combo2ListAll4 = new List<double>();
+
+            for (int b = 0; b < combo3Array.Count(); b++)
+            {
+                var c = combo3Array[b];
+
+                for (int i = 0; i < constant2; i++)
+                {
+                    var temp = ((check1 + constant3)%constant1) + (constant1*i);
+
+                    if (((c + constant3)%(constant1*constant2)) != temp &&
+                        ((c - constant3)%(constant1*constant2)) != temp)
+                    {
+                        switch (b)
+                        {
+                            case 0: combo2ListAll1.Add(temp);
+                                break;
+                            case 1: combo2ListAll2.Add(temp);
+                                break;
+                            case 2: combo2ListAll3.Add(temp);
+                                break;
+                            case 3: combo2ListAll4.Add(temp);
+                                break;
+                        }
+                    }
+
                 }
 
             }
-            array2out = var2.ToArray();
+            double[] combo2ArrayAll1 = combo2ListAll1.ToArray();
+            double[] combo2ArrayAll2 = combo2ListAll2.ToArray();
+            double[] combo2ArrayAll3 = combo2ListAll3.ToArray();
+            double[] combo2ArrayAll4 = combo2ListAll4.ToArray();
 
-        }
+            // Calculate output for unknown combo 3
 
-        public static string CalculateOutput()
-        {
-            var output1 = var1out;
-            var output3 = array3out[array3index - 1];
-            string outputString = "";
 
-            for (int i = 0; i < array2out.Count(); i++)
-            {
-                var count = i + 1;
-                outputString += count + ").\t" + "( " + output1 + " , ";
-                outputString += array2out[i] + " , ";
-                outputString += output3 + " )\n";
-            }
 
-            Console.Clear();
-            Console.WriteLine("\t\t\tPossible Combination List\n");
-            Console.WriteLine("\nBelow is a list of possible combinations for your lock:\n");
-            Console.WriteLine("#).\t(Combo)");
-            Console.WriteLine(outputString);
-            return outputString;
-        }
 
-        public static void RunAgainInstructions()
-        {
+
+
+
+            // Loop Program
+            LoopProgram:
             Console.WriteLine("\nWould you like to run the program again?");
             Console.WriteLine("If so, please type \"Y\".");
+            var inputValue5 = Console.ReadLine();
+            char loopProgram = 'Y';
+            // Check inputValue5 for char
+            if (char.TryParse(inputValue5, out loopProgram) == false)
+            {
+                ;
+            }
+            // Check loopProgram for yes
+            if (loopProgram == 'y' || loopProgram == 'Y')
+            {
+                goto Start;
+            }
+
         }
 
     }
