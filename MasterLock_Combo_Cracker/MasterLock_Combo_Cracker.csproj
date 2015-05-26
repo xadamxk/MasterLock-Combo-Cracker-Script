@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0FB1AB4B-93B7-49CF-8DB1-2BE38ED7DABF}</ProjectGuid>
+    <ProjectGuid>{A91447DD-B02C-4A77-A5A7-5BBD54EF63F9}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MasterLock_Combo_Cracker</RootNamespace>
@@ -41,7 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MasterLockComboCracker.cs" />
+    <Compile Include="ComboCrackerApp.cs" />
+    <Compile Include="ComboCrackerClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
