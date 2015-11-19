@@ -1,4 +1,4 @@
-# MasterLock_Combo_Cracker
+# MasterLock Combo Cracker (script)
 Uses Samy Kamkar's algorithm to make a set of possible combinations for MasterLock's padlocks. 
 3 values are needed in order to predict the combination, and they are:
  - 1) First locked position
